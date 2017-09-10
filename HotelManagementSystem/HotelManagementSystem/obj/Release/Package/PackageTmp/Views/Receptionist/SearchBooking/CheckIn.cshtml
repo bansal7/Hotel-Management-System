@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "CheckIn to a Room successful";
+}
+
+<!DOCTYPE html>
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<div>
+    @using (Html.BeginForm("SearchEmptyRoom", "SearchBooking", FormMethod.Post))
+    {
+        <form>
+            <input type="submit" class="btn btn-primary btn-block" value="Continue CheckIn" name="checkIn" />
+        </form>
+    }
+
+</div>

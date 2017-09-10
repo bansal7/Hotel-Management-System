@@ -1,0 +1,219 @@
+﻿@model HotelManagementSystem.Models.SearchViewModels
+
+<style>
+    form {
+        /*border: 2px solid grey;
+        padding: 35px 40px 10px 30px;*/
+        margin: 10px;
+        width: auto;
+    }
+</style>
+
+<div>
+    @using (Html.BeginForm("SearchRoom", "Search", FormMethod.Post))
+    {
+        <fieldset>
+            <legend>Search Available Room</legend>
+
+            <form id="searchRoom-form" name="searchRoom-form">
+                <div class="form-group row" id="checkIn1">
+                    <label class="col-lg-2">Check-In Date:</label>
+                    <div class="col-lg-10">
+                        @if (Model.bookingDates != null)
+                        {
+                            ViewBag.checkInDate = Model.bookingDates.checkInDate.ToShortDateString();
+                        }
+                        @*<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>*@
+                        <input type="text" class="form-control" id="checkIn" name="checkIn" value="@ViewBag.checkInDate">
+
+
+                        <p class="help-block">Check In after 14:00 hrs</p>
+                    </div>
+                </div>
+
+                <div class="form-group row" id="checkOut1">
+                    <label class="col-lg-2">Check-Out Date:</label>
+                    <div class="col-lg-10">
+                        @if (Model.bookingDates != null)
+                        {
+                            ViewBag.checkOutDate = Model.bookingDates.checkOutDate.ToShortDateString();
+                        }
+                        <input type="text" class="form-control" id="checkOut" name="checkOut" value="@ViewBag.checkOutDate">
+                        <p class="help-block">Check Out before 11:00 hrs</p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-2">Room Type:</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" id="roomType" name="roomType">
+                            <option></option>
+                            <option>Premium</option>
+                            <option>Deluxe</option>
+                            <option>Super Deluxe</option>
+                            <option>Suite</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row">
+                    <label class="col-lg-2">Room Count:</label>
+                    <div class="col-lg-10">
+                        <select class="form-control" name="roomCount">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <input type="submit" class="btn btn-primary btn-block" value="Search Room(s)" />
+                    </div>
+                </div>
+
+            </form>
+
+        </fieldset>
+    }
+
+    <script>
+        $(function () {
+            var dateFormat = "mm/dd/yy",
+              from = $("#checkIn")
+                .datepicker({
+                    minDate: 0,
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 2,
+                    onSelect: function (selected) {
+                        var dt = new Date(selected);
+                        dt.setDate(dt.getDate() + 1);
+                        $("#checkOut").datepicker("option", "minDate", dt);
+                    }
+                })
+                .on("change", function () {
+                    to.datepicker("option", "minDate", getDate(this) + 1);
+                }),
+              to = $("#checkOut").datepicker({
+                  minDate: 1,
+                  defaultDate: "+1w",
+                  changeMonth: true,
+                  numberOfMonths: 2,
+                  onSelect: function (selected) {
+                      var dt = new Date(selected);
+                      dt.setDate(dt.getDate() - 1);
+                      $("#checkIn").datepicker("option", "maxDate", dt);
+                  }
+              })
+              .on("change", function () {
+                  from.datepicker("option", "maxDate", getDate(this) - 1);
+              });
+
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+
+            $("form").submit(function (e) {
+                event = event || window.event || event.srcElement;
+
+                var checkInDate = $('#checkIn').val();
+                var checkOutDate = $('#checkOut').val();
+                var prevent = false;
+
+                if (checkInDate == "") {
+                    $('#checkIn1').addClass('has-error');
+                    $('#checkIn').addClass('input-group-focus')
+                    $('#checkIn').effect("highlight", {}, 1000);
+                    prevent = true;
+                }
+                else {
+                    $('#checkIn1').removeClass('has-error');
+                    $('#checkIn').removeClass('form-control-warning')
+                }
+
+                if (checkOutDate == "") {
+                    $('#checkOut1').addClass('has-error');
+                    $('#checkOut').addClass('form-control-warning')
+                    $('#checkOut').effect("highlight", {}, 1000);
+                    prevent = true;
+                }
+                else {
+                    $('#checkOut1').removeClass('has-error');
+                    $('#checkOut').removeClass('form-control-warning')
+                }
+
+                if (prevent == true) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
+    @if (Model != null && Model.searchResult != null)
+            {
+        <fieldset>
+            <legend>Available Room(s)</legend>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Room Type</th>
+                        <th>Room(s) Available</th>
+                        <th>Price per room($)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model.searchResult)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => result.roomType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => result.count)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => result.pricePerRoom)
+                            </td>
+                            <td><button type="button" class="book btn btn-primary btn-block">Book</button></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    }
+    <script>
+        $('.book').click(function () {
+            var roomType = $(this).closest("tr").find('td:eq(0)').text().trim(" ");
+            var roomCount = $(this).closest("tr").find('td:eq(1)').text().trim(" ");
+            var roomPrice = $(this).closest("tr").find('td:eq(2)').text().trim(" ");
+
+
+            var url = "@Url.Action("BookRoom", "Book", new { bookingDate = @ViewBag.checkInDate + " " + @ViewBag.checkOutDate })";
+
+            url = url + "&roomType=" + roomType + "&roomCount=" + roomCount + "&roomPrice=" + roomPrice;
+            window.location.href = url;
+
+
+        });
+    </script>
+
+
+</div>

@@ -1,0 +1,288 @@
+﻿
+@model HotelManagementSystem.Models.BookViewModel
+
+<div class="container"><h2>Room Booking</h2></div>
+
+<div id="tabs">
+    <ul>
+        <li>
+            <a href="#tabs-1">Room Details</a>
+
+        </li>
+        <li>
+            <a href="#tabs-2">Personal Details</a>
+
+        </li>
+        <li>
+            <a href="#tabs-3">Credit Card Details</a>
+
+        </li>
+        <li>
+            <a href="#tabs-4">Confirm Booking</a>
+
+        </li>
+    </ul>
+    @using (Html.BeginForm("ConfirmBooking", "Book", FormMethod.Post))
+    {
+        <form style="margin:20px;" class="form-horizontal">
+
+            <div id="tabs-1">
+                <div class="row" style="margin:20px;">
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">CheckIn Date:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.roomDetail.checkInDate, new { @class = "form-control", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">CheckOut Date:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.roomDetail.checkOutDate, new { @class = "form-control", @readonly = "readonly" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">Room Type:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.roomDetail.roomType, new { @class = "form-control", @readonly = "readonly" })
+                            @*<input type="text" class="form-control" value="@Model.roomDetail.roomType" disabled="disabled" name="@Model.roomDetail.roomType">*@
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2">Room Count:</label>
+
+                        <div class="col-lg-10">
+
+                            @Html.TextBoxFor(Model => Model.roomDetail.roomCount, new { @class = "form-control", @type = "number", @max = Model.roomDetail.roomCount, @min = 1 })
+                            @*<select class="form-control" name="@Model.roomDetail.roomCount">
+                                    @for (var num = 1; num <= Model.roomDetail.roomCount; num++)
+                                    {
+                                        <option>@num</option>
+                                    }
+                                </select>*@
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2">Room Price:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.roomDetail.roomPrice, new { @class = "form-control", @readonly = "readonly" })
+                            @*<input type="text" class="form-control" value="@Model.roomDetail.roomPrice$ per room" disabled="disabled" name="@Model.roomDetail.roomPrice">*@
+                        </div>
+                    </div>
+                    @*</form>*@
+                </div>
+            </div>
+            <div id="tabs-2">
+                <div class="row" style="margin:20px;">
+                    @*<form style="margin:20px;" class="form-horizontal">*@
+
+                    <!-- full-name input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Full Name:</label>
+
+                        <div class="col-lg-10 input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(Model => Model.guestDetail.fullName, new { @class = "form-control", @placeholder = "Full Name" })
+
+                            @*                                <input style="width: 100%" id="full-name" name="@Model.guestDetail.fullName" type="text" placeholder="Full Name" class="form-control">*@
+                        </div>
+
+                    </div>
+                    <!-- address-line1 input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Address Line:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.guestDetail.address, new { @class = "form-control", @placeholder = "Apartment, suite , unit, building, floor, etc." })
+                            @*<input name="@Model.guestDetail.address" type="text" placeholder="Apartment, suite , unit, building, floor, etc." class="form-control">*@
+                        </div>
+                    </div>
+
+
+                    <!-- city input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">City:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.guestDetail.city, new { @class = "form-control", @placeholder = "City" })
+                            @*<input name="@Model.guestDetail.city" type="text" placeholder="City" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <!-- region input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">State:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.guestDetail.state, new { @class = "form-control", @placeholder = "State" })
+                            @*<input name="@Model.guestDetail.state" type="text" placeholder="State" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <!-- postal-code input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Pin Code:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.guestDetail.pinCode, new { @class = "form-control", @placeholder = "Pin Code" })
+                            @*<input name="@Model.guestDetail.pinCode" type="text" placeholder="Pin Code" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <!-- id tye input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Id Type:</label>
+                        <div class="col-lg-10">
+                            @*<select class="form-control" name="@Model.guestDetail.idType">
+                                    <option>SSN</option>
+                                    <option>PassPort</option>
+                                    <option>State Id</option>
+                                    <option>Driving Licence</option>
+                                </select>*@
+                            @Html.DropDownListFor(Model => Model.guestDetail.idType, Model.idTypes, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <!-- id number input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Id Number:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.guestDetail.idNumber, new { @class = "form-control", @placeholder = "Id Number" })
+                            @*<input name="@Model.guestDetail.idNumber" type="text" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">Gmail Address:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.guestDetail.emailAddr, new { @class = "form-control", @placeholder = "myusername@gmail.com" })
+                        </div>
+                    </div>
+                    @*</form>*@
+                </div>
+            </div>
+            <div id="tabs-3">
+                <div class="row" style="margin:20px;">
+                    @*<form style="margin:20px;" class="form-horizontal">*@
+
+                    <!-- full-name input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Card Holder Name:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.creditCardDetail.cardHolderName, new { @class = "form-control", @placeholder = "Card Holder Name" })
+                            @*<input name="@Model.creditCardDetail.cardHolderName" type="text" placeholder="Card Holder Name" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <!-- id tye input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Bank Name:</label>
+                        <div class="col-lg-10">
+                            @*<select class="form-control" name="@Model.creditCardDetail.bankName">
+                                    <option>BOFA</option>
+                                    <option>AMEX</option>
+                                    <option>Discover</option>
+                                    <option>Santander</option>
+                                </select>*@
+
+                            @Html.DropDownListFor(Model => Model.creditCardDetail.bankName, Model.bankNames, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <!-- full-name input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Card Number:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.creditCardDetail.cardNumber, new { @class = "form-control", @placeholder = "Card Number" })
+                            @*<input name="@Model.creditCardDetail.cardNumber" type="text" placeholder="Card Number" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <!-- full-name input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Expiry Date:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.creditCardDetail.expiryDate, new { @class = "form-control", @placeholder = "mm/yy" })
+                            @*<input name="@Model.creditCardDetail.expiryDate" type="text" placeholder="mm/yy" class="form-control">*@
+                        </div>
+                    </div>
+
+                    <!-- full-name input-->
+                    <div class="form-group row">
+                        <label class="col-lg-2">Code:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.creditCardDetail.code, new { @class = "form-control", @placeholder = "Code" })
+                            @*<input name="@Model.creditCardDetail.code" type="text" placeholder="Code" class="form-control">*@
+                        </div>
+                    </div>
+
+                    
+                    @*</form>*@
+                </div>
+            </div>
+
+            <div id="tabs-4">
+                <div class="form-group row">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <input type="submit" id="confirmBooking" class="btn btn-primary btn-block " value="Confirm Booking" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+</div>
+
+<script>
+    $("#tabs").tabs({
+        beforeActivate: function (event, ui) {
+
+           
+
+            if (ui.newPanel.attr('id') == "tabs-4") {
+
+                var $emptyFields1 = $("input", $("#tabs-2")).filter(function () {
+
+                    return $.trim(this.value) === "";
+                });
+
+                console.log($emptyFields1.length);
+                var $emptyFields2 = $("input", $("#tabs-3")).filter(function () {
+
+                    return $.trim(this.value) === "";
+                });
+
+                console.log($emptyFields2.length);
+                console.log($emptyFields2.length);
+
+                if ($emptyFields1.length != 0 || $emptyFields2.length != 0)
+                    return false;
+             
+            }
+
+            var $emptyFields = $("input", ui.oldPanel).filter(function () {
+
+                return $.trim(this.value) === "";
+            });
+
+            var $filledFields = $("input", ui.oldPanel).filter(function () {
+
+                return $.trim(this.value) != "";
+            });
+
+            if ($filledFields.length) {
+                $filledFields.removeClass('input-group-focus')
+                $filledFields.closest('div').closest('div').removeClass('has-error');
+            }
+            if ($emptyFields.length) {
+                $emptyFields.addClass('input-group-focus')
+                $emptyFields.effect("highlight", {}, 1000);
+                $emptyFields.closest('div').closest('div').addClass('has-error');
+
+                return ui.oldPanel.attr('id') > ui.newPanel.attr('id')
+            }
+
+            
+
+        }
+    })
+</script>

@@ -1,0 +1,133 @@
+﻿@model HotelManagementSystem.Models.RoomExpense
+
+<style>
+    form {
+        /*border: 2px solid grey;
+        padding: 35px 40px 10px 30px;*/
+        margin: 10px;
+        width: auto;
+    }
+</style>
+
+<div id="expenseDiv" class="container">
+    @using (Html.BeginForm("Index", "RoomExpense", FormMethod.Post))
+    {
+        <fieldset>
+            <legend>Add Expense</legend>
+            <form style="margin:20px;" class="form-horizontal">
+
+                <div class="row" style="margin:20px;">
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">Room Number:</label>
+                        <div class="col-lg-10">
+                            @Html.DropDownListFor(Model => Model.roomNumber, Model.occupiedRoom, new { @class = "form-control", @id = "roomNumber" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">Description:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.description, new { @class = "form-control", @id = "description" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">Price:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.price, new { @class = "form-control", @id = "price" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-2">Expense Date:</label>
+                        <div class="col-lg-10">
+                            @Html.TextBoxFor(Model => Model.expenseDT, new { @class = "form-control", @id = "expenseDT" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <input type="submit" class="btn btn-primary btn-block " value="Add Expense" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+    }
+</div>
+
+<script>
+    $(function () {
+        //var url = $(location).attr("href");
+
+        //if (url.includes("RoomExpense")) {
+        //      $("#Receptionist").removeClass("hide");
+        //  }
+        //else {
+        //    $("#Receptionist").addClass("hide");
+        //  }
+        $("#expenseDT").datetimepicker({ minDate: 0 });
+
+        $("form").submit(function (e) {
+            event = event || window.event || event.srcElement;
+
+            var roomNumber = $('#roomNumber').val();
+            var description = $('#description').val();
+            var price = $('#price').val();
+            var expenseDT = $('#expenseDT').val();
+            var prevent = false;
+            if (roomNumber == null) {
+
+                $('#roomNumber').closest('div').closest('div').addClass('has-error');
+                $('#roomNumber').addClass('input-group-focus')
+                $('#roomNumber').effect("highlight", {}, 1000);
+                prevent = true;
+            }
+            else {
+                $('#roomNumber').closest('div').closest('div').removeClass('has-error');
+                $('#roomNumber').removeClass('form-control-warning')
+            }
+
+            if (description == "") {
+
+                $('#description').closest('div').closest('div').addClass('has-error');
+                $('#description').addClass('input-group-focus')
+                $('#description').effect("highlight", {}, 1000);
+                prevent = true;
+            }
+            else {
+                $('#description').closest('div').closest('div').removeClass('has-error');
+                $('#description').removeClass('form-control-warning')
+            }
+
+            if (price == "" || price <= 0) {
+
+                $('#price').closest('div').closest('div').addClass('has-error');
+                $('#price').addClass('input-group-focus')
+                $('#price').effect("highlight", {}, 1000);
+                prevent = true;
+            }
+            else {
+                $('#price').closest('div').closest('div').removeClass('has-error');
+                $('#price').removeClass('form-control-warning')
+            }
+
+            if (expenseDT == "") {
+
+                $('#expenseDT').closest('div').closest('div').addClass('has-error');
+                $('#expenseDT').addClass('input-group-focus')
+                $('#expenseDT').effect("highlight", {}, 1000);
+                prevent = true;
+            }
+            else {
+                $('#expenseDT').closest('div').closest('div').removeClass('has-error');
+                $('#expenseDT').removeClass('form-control-warning')
+            }
+
+            if (prevent == true) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>

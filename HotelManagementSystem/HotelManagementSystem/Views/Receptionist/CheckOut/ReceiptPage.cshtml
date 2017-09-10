@@ -1,0 +1,149 @@
+﻿@model HotelManagementSystem.Models.CheckOut
+
+@{
+    ViewBag.Title = "Receipt for the checked out room";
+}
+
+
+<style>
+    form {
+        margin: 10px;
+        width: auto;
+    }
+
+    textarea {
+        border: 0;
+        font: 14px Georgia, Serif;
+        overflow: hidden;
+        resize: none;
+    }
+
+    #meta {
+        margin-top: 1px;
+        width: 300px;
+        float: right;
+    }
+
+        #meta td {
+            text-align: right;
+        }
+
+            #meta td.meta-head {
+                text-align: left;
+                background: #ccffcc;
+            }
+
+            #meta td textarea {
+                width: 100%;
+                height: 20px;
+                text-align: right;
+            }
+
+    #items {
+        clear: both;
+        width: 100%;
+        margin: 30px 0 0 0;
+    }
+
+        #items th {
+            background: #e6f0ff;
+        }
+
+        #items textarea {
+            width: 80px;
+            height: 50px;
+        }
+
+        #items tr.item-row td {
+            border: 0;
+            vertical-align: top;
+        }
+
+        #items td.description {
+            width: 300px;
+        }
+
+        #items td.item-name {
+            width: 175px;
+        }
+
+            #items td.description textarea, #items td.item-name textarea {
+                width: 100%;
+            }
+
+        #items td.total-line {
+            border-right: 0;
+            text-align: right;
+        }
+
+        #items td.total-value {
+            border-left: 0;
+            padding: 10px;
+        }
+
+            #items td.total-value textarea {
+                height: 20px;
+                background: none;
+            }
+
+        #items td.balance {
+            background: #ccffcc;
+        }
+
+        #items td.blank {
+            border: 0;
+        }
+</style>
+
+<div>
+    @if (Model != null)
+    {
+        <fieldset>
+            <legend>Receipt for the checked out room</legend>
+        </fieldset>
+        double totalCharge = 0;
+        <div>
+            <table id="meta" class="table table-bordered">
+                <tr>
+                    <td class="meta-head">Date :</td>
+                    <td><textarea id="date">@Model.checkOutDate.Value.ToShortDateString()</textarea></td>
+                </tr>
+                <tr>
+                    <td class="meta-head">Room #</td>
+                    <td><textarea>@Model.roomNumber</textarea></td>
+                </tr>
+            </table>
+        </div>
+        <table id="items" class="table table-bordered">
+
+            <tr>
+                <th>Sr No.</th>
+                <th>Description</th>
+                <th>Date of Expense</th>
+                <th>Charge</th>
+            </tr>
+
+            <tbody>
+                @for (int i = 0; i < Model.resultData.Count; i++)
+                {
+                    <tr class="item-row">
+                        <td>@(i + 1)</td>
+                        <td class="description"><textarea>@Model.resultData[i].description</textarea></td>
+                        <td>@Model.resultData[i].dateOfExpense.ToString("d")</td>
+                        <td><textarea class="cost">$@Model.resultData[i].charge</textarea></td>
+                    </tr>
+
+                    totalCharge += Model.resultData[i].charge;
+                }
+            </tbody>
+
+            <tr>
+                <td colspan="1" class="blank"> </td>
+                <td colspan="2" class="total-line">Total Amount: </td>
+                <td class="total-value balance"><div id="total">$@totalCharge</div></td>
+            </tr>
+        </table>
+    }
+
+
+</div>

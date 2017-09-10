@@ -1,0 +1,172 @@
+﻿@model HotelManagementSystem.Models.BookingDetails
+
+@{
+    ViewBag.Title = "Search Booking";
+}
+
+<h2>@ViewBag.Title</h2>
+<hr>
+
+<style type="text/css">
+    #searchBooking {
+        align-content: center;
+        margin: 10px;
+        width: auto;
+    }
+
+    .search {
+        padding: 8px 15px;
+        background: rgba(50, 50, 50, 0.2);
+        border: 0px solid #dbdbdb;
+    }
+
+    .button:hover {
+        background-color: #fafafa;
+        color: #207cca;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #cecfd5;
+        padding: 10px 15px;
+    }
+</style>
+
+<div>
+    @using (Html.BeginForm("Index", "SearchBooking", FormMethod.Post, new { @id = "searchBooking" }))
+    {
+        <form class="form-group" id="searchBooking" name="searchBooking">
+
+            <div class="form-group row" id="code1">
+                <label class="col-lg-2">Confirmation Code:</label>
+                <div class="col-lg-10">
+                    <input class="form-control" type="text" placeholder="Search..." id="code" name="confirmationCode">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <input type="submit" class="btn btn-primary btn-block" value="Search">
+                </div>
+            </div>
+        </form>
+    }
+
+    @if (Model != null)
+    {
+        <hr>
+        if (Model.message != null)
+        {
+            <div class="panel panel-danger" style="margin: 10px 100px; text-align:center">
+                <div class="panel-heading"><h4>@Model.message</h4></div>
+            </div>
+        }
+        else
+        {
+            <table align="center" class="table table-bordered">
+                <caption>Following is the booking details for the given code</caption>
+                <tr>
+                    <th>Type</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Confirmation Code</td>
+                    <td>@Model.resultData.confirmationCode</td>
+                </tr>
+                <tr>
+                    <td>CheckIn Date</td>
+                    <td>@Model.resultData.checkinDate</td>
+                </tr>
+                <tr>
+                    <td>CheckOut Date</td>
+                    <td>@Model.resultData.checkoutDate</td>
+                </tr>
+                <tr>
+                    <td>Room Type</td>
+                    <td>@Model.resultData.roomType</td>
+                </tr>
+                <tr>
+                    <td>Number of Room(s)</td>
+                    <td>@Model.resultData.roomCount</td>
+                </tr>
+                <tr>
+                    <td>Guest Name</td>
+                    <td>@Model.resultData.guestName</td>
+                </tr>
+                <tr>
+                    <td>Total Amount Paid</td>
+                    <td>@Model.resultData.amtPaid</td>
+                </tr>
+            </table>
+
+                        ViewBag.CanCheckIn = true;
+                        ViewBag.panelClass = "panel-danger";
+
+                        Console.WriteLine(DateTime.Now);
+                        if (Model.resultData.checkoutDate <= DateTime.Now.AddHours(0))
+                        {
+                            ViewBag.CanCheckIn = false;
+                            ViewBag.ErrorMsg = "Booking period for this booking is passed";
+                        }
+
+                        if (Model.resultData.checkinDate > DateTime.Now.AddHours(0) && ViewBag.CanCheckIn)
+                        {
+                            ViewBag.CanCheckIn = false;
+                            ViewBag.ErrorMsg = "Check-In can be done only after " + Model.resultData.checkinDate;
+                        }
+
+                        if (Model.resultData.roomCount - Model.resultData.roomCountCheckedIn == 0 && ViewBag.CanCheckIn)
+                        {
+                            ViewBag.CanCheckIn = false;
+                            ViewBag.panelClass = "panel-success";
+                            ViewBag.ErrorMsg = "Checking done for Booking Id : " + Model.resultData.confirmationCode;
+                        }
+
+                        if (ViewBag.CanCheckIn)
+                        {
+                            using (Html.BeginForm("SearchEmptyRoom", "SearchBooking", FormMethod.Post))
+                            {
+                    <form class="form-group">
+                        <input type="submit" style="margin: 10px auto" class="btn btn-primary btn-block" value="Search Empty Room">
+                    </form>
+                }
+    }
+            else
+            {
+                <div class="panel @ViewBag.panelClass" style="margin: 10px 100px; text-align:center">
+                    <div class="panel-heading"><h4>@ViewBag.ErrorMsg</h4></div>
+                </div>
+            }
+        }
+    }
+
+    <script>
+        $(function () {
+            $('#searchBooking').submit(function (e) {
+                event = event || window.event || event.srcElement;
+
+                var cCode = $('#code').val();
+                var prevent = false;
+
+                if (cCode == "") {
+                    $('#code1').addClass('has-error');
+                    $('#code').addClass('input-group-focus')
+                    $('#code').effect("highlight", {}, 1000);
+                    prevent = true;
+                }
+                else {
+                    $('#code1').removeClass('has-error');
+                    $('#code').removeClass('form-control-warning')
+                }
+
+                if (prevent == true) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
+</div>

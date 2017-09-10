@@ -1,0 +1,47 @@
+﻿@model HotelManagementSystem.Models.BookingDetail
+
+<h1>Booking Confirmation</h1>
+<hr>
+
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row">
+            <label class="col-lg-3">Confirmation Code:</label>
+            <label class="col-lg-9">@Model.confirmationCode</label>
+        </div>
+
+        <div class="row">
+            <label class="col-lg-3">Guest Name:</label>
+            <label class="col-lg-9">@Model.guestName</label>
+        </div>
+
+        <div class="row">
+            <label class="col-lg-3">Check In Date:</label>
+            <label class="col-lg-9">@Model.checkInDate</label>
+        </div>
+
+        <div class="row">
+            <label class="col-lg-3">Check Out Date:</label>
+            <label class="col-lg-9">@Model.checkOutDate</label>
+        </div>
+
+        <div class="row">
+            <label class="col-lg-3">Room Type:</label>
+            <label class="col-lg-9">@Model.roomType</label>
+        </div>
+
+        <div class="row">
+            <label class="col-lg-3">Room Count:</label>
+            <label class="col-lg-9">@Model.roomCount</label>
+        </div>
+
+        <div class="row">
+            <label class="col-lg-3">Total Amount Paid:</label>
+            <label class="col-lg-9">@Model.totalAmountPaid</label>
+        </div>
+
+    </div>
+}
+
+

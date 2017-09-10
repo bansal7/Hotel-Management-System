@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="HotelManagementSystem" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Harshil\ Vasani\\documents\\visual\ studio\ 2015\\Projects\\HotelManagementSystem\\HotelManagementSystem\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Harshil\ Vasani\\documents\\visual\ studio\ 2015\\Projects\\HotelManagementSystem\\HotelManagementSystem\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Server=db-instances.cyiy68i5rl4p.us-west-2.rds.amazonaws.com;Database=DBMS_HMS;User Id=harshil_03; password=Vasani99" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Harshil\ Vasani\\documents\\visual\ studio\ 2015\\Projects\\HotelManagementSystem\\HotelManagementSystem\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

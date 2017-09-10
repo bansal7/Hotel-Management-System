@@ -1,0 +1,86 @@
+﻿@model HotelManagementSystem.Models.CheckOut
+
+@{
+    ViewBag.Title = "Check Out from a room";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#checkOut").datepicker({ minDate: 0 });
+    });
+</script>
+<style>
+    form {
+        margin: 10px;
+        width: auto;
+    }
+</style>
+
+<div class="container">
+    @using (Html.BeginForm("CheckOut", "CheckOut", FormMethod.Post, new { @id = "checkOut1" }))
+    {
+        <fieldset>
+            <legend>@ViewBag.Title</legend>
+            <form id="div1" class="form-horizontal">
+                <div class="form-group row" id="roomNumber1">
+                    <label class="col-lg-2">Room Number:</label>
+                    <div class="col-lg-10">
+                        @Html.DropDownListFor(Model => Model.roomNumber, Model.occupiedRoom, new { @class = "form-control", @id = "roomNumber" })
+                    </div>
+                </div>
+
+                <div class="form-group row" id="checkOut2">
+                    <label class="col-lg-2">CheckOut Date:</label>
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(Model => Model.checkOutDate, new { @class = "form-control", @id = "checkOut" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <input type="submit" value="CheckOut" class="btn btn-primary form-control" id="preview" />
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+    }
+
+    <script>
+        $(function () {
+            $('#checkOut1').submit(function (e) {
+                event = event || window.event || event.srcElement;
+
+                var roomNumber = $('#roomNumber').val();
+                var checkOutDate = $('#checkOut').val();
+                var prevent = false;
+
+                if (roomNumber == null) {
+
+                    $('#roomNumber').closest('div').closest('div').addClass('has-error');
+                    $('#roomNumber').addClass('input-group-focus')
+                    $('#roomNumber').effect("highlight", {}, 1000);
+                    prevent = true;
+                }
+                else {
+                    $('#roomNumber').closest('div').closest('div').removeClass('has-error');
+                    $('#roomNumber').removeClass('form-control-warning')
+                }              
+
+                if (checkOutDate == "") {
+                    $('#checkOut2').addClass('has-error');
+                    $('#checkOut').addClass('input-group-focus')
+                    $('#checkOut').effect("highlight", {}, 1000);
+                    prevent = true;
+                }
+                else {
+                    $('#checkOut2').removeClass('has-error');
+                    $('#checkOut').removeClass('form-control-warning')
+                }
+
+                if (prevent == true) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</div>
+

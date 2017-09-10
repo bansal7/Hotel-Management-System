@@ -1,0 +1,15 @@
+﻿
+@if (ViewBag.rowsAdded == 1)
+{
+    ViewBag.panelClass = "panel-success";
+    ViewBag.Msg = "Expense of " + ViewBag.description + " added to room: " + ViewBag.roomNum;
+}
+else
+{
+    ViewBag.panelClass = "panel-danger";
+    ViewBag.Msg = "Unable to add expense of " + ViewBag.description + "  to room: " + ViewBag.roomNum;
+}
+
+<div class="panel @ViewBag.panelClass" style="margin: 10px 100px; text-align:center">
+    <div class="panel-heading"><h4>@ViewBag.Msg</h4></div>
+</div>

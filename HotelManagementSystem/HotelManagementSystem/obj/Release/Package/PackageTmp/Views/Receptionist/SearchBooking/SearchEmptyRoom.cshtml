@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "CheckIn to a Room";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        border: 1px solid #cecfd5;
+        padding: 10px 15px;
+    }
+
+    .roomNumber {
+        margin: 0;
+        padding: 0;
+        display: block;
+        border: 0;
+        width: 100%;
+    }
+</style>
+<div>
+    @if (Model != null)
+            {
+        <table align="center" class="table-hover">
+            <caption>Following are the available rooms:</caption>
+            <thead>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Room Number</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.resultData.Count; i++)
+                {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        @using (Html.BeginForm("CheckIn", "SearchBooking", FormMethod.Post))
+                        {
+                            <td><input class="roomNumber" type="text" name="roomNumber" value="@Model.resultData[i]" readonly /></td>
+                            <td><input type="submit" class="btn btn-primary" value="CheckIn" name="checkIn" /></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
